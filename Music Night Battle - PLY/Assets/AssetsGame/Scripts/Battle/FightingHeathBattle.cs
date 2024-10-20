@@ -23,7 +23,7 @@ public class FightingHeathBattle : MonoBehaviour
     }
     public void AddPlayerScore()
     {
-        playerScore++;
+        playerScore += 2;
         UpdateFightingBar();
     }
     void UpdateFightingBar()

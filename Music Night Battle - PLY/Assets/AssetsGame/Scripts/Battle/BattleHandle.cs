@@ -95,6 +95,7 @@ public class BattleHandle : Singleton<BattleHandle>
 
         var _musicNote = SpawnHandler.Instance.SpawnMusicNote(rectMusicBoard);
         var _posBattleBtn = _rectTBattleBtn.position;
+        _musicNote.SetClicked(false);
         _musicNote.SetPosition(new Vector2(_posBattleBtn.x, _posBattleBtn.y + GameConfig.ADD_POS_Y_SPAWN_MUSIC_NOTE));
         _musicNote.SetIdNote(noteID);
         _musicNote.SetNoteType(_noteType);
@@ -119,7 +120,15 @@ public class BattleHandle : Singleton<BattleHandle>
         SpawnHandler.Instance.PoolingMusicNote(musicNote);
     }
 
+    public void OpponentKillNote(MusicNote musicNote)
+    {
+        opponentCharacter.UpdateAction(musicNote.MusicNoteType);
+        fightingHeathBattle.AddOpponentScore();
 
+        var _listNote = GetListHoldNote(musicNote.MusicNoteType);
+        _listNote.Remove(musicNote);
+        SpawnHandler.Instance.PoolingMusicNote(musicNote);
+    }
 
     RectTransform GetRectTransformBattleButton(MusicNoteType noteType)
     {
@@ -230,8 +239,6 @@ public class BattleHandle : Singleton<BattleHandle>
     }
 
 
-
-
     public void OnClickedBattleArrow(BattleButton battleButton)
     {
         var _noteType = GetMusicNoteType(battleButton.ButtonType);
@@ -241,7 +248,7 @@ public class BattleHandle : Singleton<BattleHandle>
 
         for (int i = 0; i < _listNote.Count; i++)
         {
-            if (_listNote[i].MusicNoteType != _noteType) continue;
+            if (_listNote[i].MusicNoteType != _noteType && !_listNote[i].IsClicked) continue;
             var _rectTransNote = _listNote[i].GetRectTransform();
             var _rectArrowNote = GetWorldRect(_rectTransNote);
 
