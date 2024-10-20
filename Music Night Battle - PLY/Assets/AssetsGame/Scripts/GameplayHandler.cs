@@ -1,19 +1,17 @@
+using Naux.Patterns;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class GameplayHandler : MonoBehaviour
+public class GameplayHandler : Singleton<GameplayHandler>
 {
     [SerializeField] private GameState gameState;
     [SerializeField] private BattleHandle battleHandle;
     [SerializeField] private CountDownReady countDownReady;
 
-    [SerializeField] private CanvasGroup cgStartPopup;
-    [SerializeField] private CanvasGroup cgBoardGame;
-    [SerializeField] private CanvasGroup cgEndGame;
-    [SerializeField] private Button btnBattle;
+    [SerializeField] private StartPanel startPanel;
+    [SerializeField] private BoardGamePanel boardGamePanel;
+    [SerializeField] private EndPanel endPanel;
 
     void Start()
     {
@@ -21,31 +19,19 @@ public class GameplayHandler : MonoBehaviour
     }
 
     void Initialized()
-    {
-        cgStartPopup.alpha = 1f;
-        cgStartPopup.interactable = true;
-        cgStartPopup.blocksRaycasts = true;
-
-        cgBoardGame.alpha = 0f;
-        cgBoardGame.interactable = false;
-        cgBoardGame.blocksRaycasts = false;
-
-        cgEndGame.alpha = 0f;
-        cgEndGame.interactable = false;
-        cgEndGame.blocksRaycasts = false;
-
+    {       
         countDownReady.Initialized();
         battleHandle.Initialized();
-        btnBattle.onClick.AddListener(OnClickBattleGameButton);
     }
-    void OnClickBattleGameButton()
+    
+    public void StartBattle()
     {
         ChaneStateGame(GameState.Playing);
     }
+
     IEnumerator RunMultiCoroutine(params IEnumerator[] enumerators)
     {
         var _lstCoroutine = new List<Coroutine>();
-
         for (int i = 0, _count = enumerators.Length; i < _count; i++)
         {
             _lstCoroutine.Add(StartCoroutine(enumerators[i]));
@@ -55,17 +41,6 @@ public class GameplayHandler : MonoBehaviour
         {
             yield return _lstCoroutine[i];
         }
-    }
-    public IEnumerator CountReadyGameRoutine()
-    {
-        cgStartPopup.alpha = 0f;
-        cgStartPopup.interactable = false;
-        cgStartPopup.blocksRaycasts = false;
-
-        cgBoardGame.alpha = 1f;
-        cgBoardGame.interactable = true;
-        cgBoardGame.blocksRaycasts = true;
-        yield return StartCoroutine(countDownReady.StartCountDownRoutine());
     }
 
     IEnumerator PlayingRoutine()
@@ -80,38 +55,33 @@ public class GameplayHandler : MonoBehaviour
         ChaneStateGame(GameState.End);
     }
 
-    void EndGame()
-    {
-        cgBoardGame.alpha = 0f;
-        cgBoardGame.interactable = false;
-        cgBoardGame.blocksRaycasts = false;
-
-        cgEndGame.alpha = 1f;
-        cgEndGame.interactable = true;
-        cgEndGame.blocksRaycasts = true;
-    }
     public void ChaneStateGame(GameState state)
     {
         gameState = state;
         switch (gameState)
         {
             case GameState.Init:
+                startPanel.ShowPanel();
+                boardGamePanel.HidePanel();
+                endPanel.HidePanel();
                 Initialized();
                 break;
             case GameState.Playing:
-                var _countDownCoroutine = CountReadyGameRoutine();
+                startPanel.HidePanel();
+                boardGamePanel.ShowPanel();
+
+                var _countDownCoroutine = countDownReady.StartCountDownRoutine();
                 var _PlayingCoroutine = PlayingRoutine();
                 StartCoroutine(RunMultiCoroutine(_countDownCoroutine, _PlayingCoroutine));
                 break;
             case GameState.End:
-                EndGame();
+                boardGamePanel.HidePanel();
+                endPanel.ShowPanel();
                 break;
             default:
                 break;
         }
     }
-
-
 }
 public enum GameState
 {

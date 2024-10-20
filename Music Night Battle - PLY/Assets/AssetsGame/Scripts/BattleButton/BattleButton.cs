@@ -51,6 +51,7 @@ public class BattleButton : MonoBehaviour
 
     public void HitArrow()
     {
+        //vfx song note
     }
 
     IEnumerator GlowArrowButton(float limitTime)
