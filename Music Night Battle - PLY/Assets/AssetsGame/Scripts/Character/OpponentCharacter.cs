@@ -14,4 +14,23 @@ public class OpponentCharacter : Character
 
         base.Initialized();
     }
+
+    public override void UpdateAction(MusicNoteType musicNoteType)
+    {
+        switch (musicNoteType)
+        {
+            case MusicNoteType.OpponentLeft:
+                ChangeStateAction(ActionState.Left);
+                break;
+            case MusicNoteType.OpponentDown:
+                ChangeStateAction(ActionState.Down);
+                break;
+            case MusicNoteType.OpponentUp:
+                ChangeStateAction(ActionState.Up);
+                break;
+            case MusicNoteType.OpponentRight:
+                ChangeStateAction(ActionState.Right);
+                break;
+        }
+    }
 }

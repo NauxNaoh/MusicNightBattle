@@ -1095,6 +1095,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 0
   fightingHeathBattle: {fileID: 2116834068}
+  playerCharacter: {fileID: 1177991513}
+  opponentCharacter: {fileID: 915999617}
   rectMusicBoard: {fileID: 271808113}
   lstBattleButtons:
   - {fileID: 1200436267}

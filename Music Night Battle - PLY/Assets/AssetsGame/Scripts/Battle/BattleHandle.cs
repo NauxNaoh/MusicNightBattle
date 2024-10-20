@@ -7,6 +7,8 @@ using UnityEngine;
 public class BattleHandle : Singleton<BattleHandle>
 {
     [SerializeField] private FightingHeathBattle fightingHeathBattle;
+    [SerializeField] private PlayerCharacter playerCharacter;
+    [SerializeField] private OpponentCharacter opponentCharacter;
     [SerializeField] private RectTransform rectMusicBoard;
     [SerializeField] private List<BattleButton> lstBattleButtons;
     [SerializeField] private List<SpriteMusicNoteInfo> lstSpriteData;
@@ -18,7 +20,7 @@ public class BattleHandle : Singleton<BattleHandle>
 
     private string fileName = "GMNB_Mr.Krabs-shows-up_GMNB--data";
     private float battleTiming;
-    
+
 
 
 
@@ -244,6 +246,7 @@ public class BattleHandle : Singleton<BattleHandle>
             var _rectArrowNote = GetWorldRect(_rectTransNote);
 
             if (!_rectBtnArrow.Overlaps(_rectArrowNote)) continue;
+            playerCharacter.UpdateAction(_noteType);
             _listNote[i].Hitting();
             battleButton.HitArrow();
             fightingHeathBattle.AddPlayerScore();

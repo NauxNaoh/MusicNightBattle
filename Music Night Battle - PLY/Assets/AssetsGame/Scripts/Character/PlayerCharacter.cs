@@ -14,4 +14,23 @@ public class PlayerCharacter : Character
 
         base.Initialized();
     }
+
+    public override void UpdateAction(MusicNoteType musicNoteType)
+    {
+        switch (musicNoteType)
+        {
+            case MusicNoteType.PlayerLeft:
+                ChangeStateAction(ActionState.Left);
+                break;
+            case MusicNoteType.PlayerDown:
+                ChangeStateAction(ActionState.Down);
+                break;
+            case MusicNoteType.PlayerUp:
+                ChangeStateAction(ActionState.Up);
+                break;
+            case MusicNoteType.PlayerRight:
+                ChangeStateAction(ActionState.Right);
+                break;            
+        }
+    }
 }

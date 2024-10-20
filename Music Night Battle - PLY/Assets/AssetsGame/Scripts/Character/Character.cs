@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour
 {
     protected CharacterType characterType;
     private ActionState actionState;
@@ -53,26 +53,8 @@ public class Character : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            ChangeStateAction(ActionState.Left);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            ChangeStateAction(ActionState.Down);
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            ChangeStateAction(ActionState.Up);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            ChangeStateAction(ActionState.Right);
+    public abstract void UpdateAction(MusicNoteType musicNoteType);
 
-        }
-    }
 }
 public enum CharacterType
 {
