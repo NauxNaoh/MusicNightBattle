@@ -11,13 +11,60 @@ public class MusicNote : MonoBehaviour
     [SerializeField] private RectTransform rectTrail;
     private int idNote;
     private MusicNoteType musicNoteType;
+    public MusicNoteType MusicNoteType => musicNoteType;
+
+    public RectTransform GetRectTransform() => rectNote;
 
 
     public void SetPosition(Vector2 position) => rectNote.position = position;
     public void SetIdNote(int id) => idNote = id;
     public void SetNoteType(MusicNoteType type) => musicNoteType = type;
     public void SetImgArrow(Sprite sprArrow) => imgArrow.sprite = sprArrow;
+
+    public void SetActiveImgArrow(bool status) => imgArrow.enabled = status;
     public void SetImgTrail(Sprite sprArrow) => imgTrail.sprite = sprArrow;
+
+
+
+    public void StartMoveNote(RectTransform rectBattleBtn, float limitTime)
+    {
+        StartCoroutine(SmoothMoveRoutine(rectNote, rectBattleBtn, limitTime));
+    }
+
+    IEnumerator SmoothMoveRoutine(RectTransform rectMove, RectTransform rectBattleBtn, float limitTime)
+    {
+        var _elapsedTime = 0f;
+        Vector2 _anchorBattleBtn = Vector2.zero;
+        Vector2 _vectorStart = Vector2.zero;
+        Vector2 _vectorEnd = Vector2.zero;
+
+        while (_elapsedTime < limitTime)
+        {
+            _anchorBattleBtn = rectBattleBtn.position;
+            _vectorStart.x = _anchorBattleBtn.x;
+            _vectorStart.y = _anchorBattleBtn.y + GameConfig.ADD_POS_Y_SPAWN_MUSIC_NOTE;
+            _vectorEnd.x = _anchorBattleBtn.x;
+            _vectorEnd.y = _anchorBattleBtn.y - GameConfig.ADD_POS_Y_SPAWN_MUSIC_NOTE;
+
+            var _t = Mathf.Clamp01(_elapsedTime / limitTime);
+            rectMove.position = Vector2.Lerp(_vectorStart, _vectorEnd, _t);
+
+            _elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        MoveDoneToDestination();
+    }
+
+    public void MoveDoneToDestination()
+    {
+        BattleHandle.Instance.KillNote(this);
+    }
+
+    public void Hitting()
+    {
+        SetActiveImgArrow(false);
+    }
 
 }
 

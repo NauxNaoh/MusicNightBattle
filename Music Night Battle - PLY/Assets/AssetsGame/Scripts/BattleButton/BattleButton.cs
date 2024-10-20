@@ -1,19 +1,20 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BattleButton : MonoBehaviour
 {
+    [SerializeField] private Image imgGlowArrow;
     private RectTransform rectTransform;
     private Button btnBattle;
-
     protected ButtonType buttonType;
     public ButtonType ButtonType => buttonType;
 
-    public Vector2 GetPosSpawnNote()
-    {
-        return new Vector2(rectTransform.position.x, 1080);
-    }
+    Coroutine hitArrowCoroutine;
 
+
+    public RectTransform GetRectTransformBattleButton() => rectTransform;
     public virtual void Initialized()
     {
         btnBattle = GetComponent<Button>();
@@ -21,6 +22,7 @@ public class BattleButton : MonoBehaviour
             Debug.LogError($"BattleButton {buttonType} need add component Button");
         RegisterEvent();
         rectTransform = GetComponent<RectTransform>();
+        imgGlowArrow.enabled = false;
     }
 
     void RegisterEvent()
@@ -34,11 +36,29 @@ public class BattleButton : MonoBehaviour
 
     void ClickedButton()
     {
+        BattleHandle.Instance.OnClickedBattleArrow(this);
+        if (hitArrowCoroutine != null)
+        {
+            StopCoroutine(hitArrowCoroutine);
+        }
 
+        hitArrowCoroutine = StartCoroutine(GlowArrowButton(0.1f));
     }
     private void OnDestroy()
     {
         UnregisterEvent();
+    }
+
+    public void HitArrow()
+    {
+    }
+
+    IEnumerator GlowArrowButton(float limitTime)
+    {
+        imgGlowArrow.enabled = true;
+        yield return new WaitForSeconds(limitTime);
+        imgGlowArrow.enabled = false;
+        hitArrowCoroutine = null;
     }
 }
 public enum ButtonType

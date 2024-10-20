@@ -26,7 +26,7 @@ public class CountDownReady : MonoBehaviour
         imgCountDown.gameObject.SetActive(status);
     }
 
-    public IEnumerator StartCountDown()
+    public IEnumerator StartCountDownRoutine()
     {
         ActiveCountDown(true);
 

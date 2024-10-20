@@ -1,5 +1,4 @@
 using Naux.Patterns;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,9 +11,17 @@ public class SpawnHandler : Singleton<SpawnHandler>
 
     public MusicNote SpawnMusicNote(RectTransform parent)
     {
-        if (queueMusicNote.Count > 0)
-            return queueMusicNote.Dequeue();
+        var _note = queueMusicNote.Count > 0
+            ? queueMusicNote.Dequeue()
+            : Instantiate<MusicNote>(prefabMusicNote, parent);
 
-        return Instantiate<MusicNote>(prefabMusicNote, parent);
+        _note.gameObject.SetActive(true);
+        return _note;
+    }
+
+    public void PoolingMusicNote(MusicNote note)
+    {
+        queueMusicNote.Enqueue(note);
+        note.gameObject.SetActive(false);
     }
 }
