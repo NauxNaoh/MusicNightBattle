@@ -2160,23 +2160,23 @@ MonoBehaviour:
   arrSound:
   - soundType: 1
     volume: 1
-    audioClip: {fileID: 8300000, guid: cf94b7825902e3c4ba588a50f907f90e, type: 3}
+    audioClip: {fileID: 8300000, guid: 70c01b9173e86e149966e39588d5f213, type: 3}
     audioSource: {fileID: 0}
   - soundType: 2
     volume: 1
-    audioClip: {fileID: 8300000, guid: 8b042ced6c8e6c6488a6dc2f6b2d89ff, type: 3}
+    audioClip: {fileID: 8300000, guid: 8ff8257a659e63e4f8f17072da0a94d5, type: 3}
     audioSource: {fileID: 0}
   - soundType: 3
     volume: 1
-    audioClip: {fileID: 8300000, guid: bb90c58266bca4447bdcdb997096ca7c, type: 3}
+    audioClip: {fileID: 8300000, guid: d9a4f0d01912b3043a2997e69b2937ab, type: 3}
     audioSource: {fileID: 0}
   - soundType: 4
     volume: 1
-    audioClip: {fileID: 8300000, guid: 4901a27c4fbc1cc498e4930ffffb43ec, type: 3}
+    audioClip: {fileID: 8300000, guid: 583ff6c7fa85202449e72299dccea41a, type: 3}
     audioSource: {fileID: 0}
   - soundType: 5
     volume: 1
-    audioClip: {fileID: 8300000, guid: fd1fb3d0c9302c441b69d38f22cf8d75, type: 3}
+    audioClip: {fileID: 8300000, guid: 33ea3662268133f498e7ff7ce0f205d7, type: 3}
     audioSource: {fileID: 0}
 --- !u!1 &1475953005
 GameObject:
